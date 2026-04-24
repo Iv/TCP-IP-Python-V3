@@ -4,7 +4,7 @@ from time import sleep
 import numpy as np
 import re
 
-# 全局变量(当前坐标)
+# Global variables (Current coordinates)
 current_actual = [-1]
 algorithm_queue = -1
 enableStatus_robot = -1
@@ -19,15 +19,15 @@ def ConnectRobot():
         dashboardPort = 29999
         movePort = 30003
         feedPort = 30004
-        print("正在建立连接...")
+        print("Connecting...")
         dashboard = DobotApiDashboard(ip, dashboardPort)
         move = DobotApiMove(ip, movePort)
         feed = DobotApi(ip, feedPort)
         feedFour = DobotApiFeedBack(ip,feedPort)
-        print(">.<连接成功>!<")
+        print(">.<Connection successful>!<")
         return dashboard, move, feed,feedFour
     except Exception as e:
-        print(":(连接失败:(")
+        print(":(Connection failed:(")
         raise e
 
 
@@ -42,7 +42,7 @@ def GetFeed(feedFour: DobotApiFeedBack):
     global enableStatus_robot
     global robotErrorState
     global robotMode
-# 获取机器人状态
+# Get robot status
     while True:
         with globalLockValue:
             feedInfo = feedFour.feedBackData()
@@ -53,7 +53,7 @@ def GetFeed(feedFour: DobotApiFeedBack):
                 algorithm_queue = feedInfo['run_queued_cmd'][0]
                 enableStatus_robot = feedInfo['enable_status'][0]
                 robotErrorState = feedInfo['error_status'][0]
-                # 自定义添加所需反馈数据
+                # Custom feedback data as needed
             sleep(0.001)
 
 def WaitArrive(point_list):
@@ -73,7 +73,7 @@ def WaitArrive(point_list):
 
 def ClearRobotError(dashboard: DobotApiDashboard):
     global robotErrorState
-    dataController, dataServo = alarmAlarmJsonFile()    # 读取控制器和伺服告警码
+    dataController, dataServo = alarmAlarmJsonFile()    # Read controller and servo alarm codes
     while True:
         globalLockValue.acquire()
         if robotErrorState:
@@ -84,25 +84,25 @@ def ClearRobotError(dashboard: DobotApiDashboard):
                     for i in numbers[1:]:
                         alarmState = False
                         if i == -2:
-                            print("机器告警 机器碰撞 ", i)
+                            print("Robot alarm: collision ", i)
                             alarmState = True
                         if alarmState:
                             continue
                         for item in dataController:
                             if i == item["id"]:
-                                print("机器告警 Controller errorid", i,
-                                      item["zh_CN"]["description"])
+                                print("Robot alarm: Controller errorid", i,
+                                      item["en"]["description"])
                                 alarmState = True
                                 break
                         if alarmState:
                             continue
                         for item in dataServo:
                             if i == item["id"]:
-                                print("机器告警 Servo errorid", i,
-                                      item["zh_CN"]["description"])
+                                print("Robot alarm: Servo errorid", i,
+                                      item["en"]["description"])
                                 break
 
-                    choose = input("输入1, 将清除错误, 机器继续运行: ")
+                    choose = input("Enter 1 to clear the error and continue running the robot: ")
                     if int(choose) == 1:
                         dashboard.ClearError()
                         sleep(0.01)
@@ -123,10 +123,10 @@ if __name__ == '__main__':
     feed_thread1 = threading.Thread(target=ClearRobotError, args=(dashboard,))
     feed_thread1.daemon = True
     feed_thread1.start()
-    print("开始使能...")
+    print("Enabling...")
     dashboard.EnableRobot()
-    print("完成使能:)")
-    print("循环执行...")
+    print("Enabled :)")
+    print("Looping...")
     point_a = [148.021667, -325.570190, 1461.586304, -
                87.462433, 23.257524, -114.395256]
     point_b = [46.395420, -345.765656, 1463.996338, -

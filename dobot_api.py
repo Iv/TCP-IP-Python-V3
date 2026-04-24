@@ -119,7 +119,7 @@ MyType = np.dtype([(
     ('reserve3', np.byte, (24,))])
 
 
-# 读取控制器和伺服告警文件
+# Read controller and servo alarm files
 
 
 def alarmAlarmJsonFile():

@@ -202,7 +202,7 @@ class RobotUI(object):
         self.label_robot_mode = self.set_label(
             self.frame_feed, "", rely=0.1, x=95)
 
-        # 点动及获取坐标
+        # Jogging and obtaining coordinates
         self.label_feed_dict = {}
         self.set_feed(LABEL_JOINT, 9, 52, 74, 117)
         self.set_feed(LABEL_COORD, 165, 209, 231, 272)
@@ -251,7 +251,7 @@ class RobotUI(object):
         return alarm_dict
 
     def read_file(self, path):
-        # 读json文件耗时大，选择维护两个变量alarm_controller_list alarm_servo_list
+        # Reading JSON files is time-consuming, choosing to maintain two variables: alarm_controller_list and alarm_servo_list
         # self.read_file("files/alarm_controller.json")
         with open(path, "r", encoding="utf8") as fp:
             json_data = json.load(fp)
@@ -311,7 +311,7 @@ class RobotUI(object):
 
     def connect_port(self):
         if self.global_state["connect"]:
-            print("断开成功")
+            print("Disconnect successful")
             self.client_dash.close()
             self.client_feed.close()
             self.client_move.close()
@@ -324,7 +324,7 @@ class RobotUI(object):
             self.button_connect["text"] = "Connect"
         else:
             try:
-                print("连接成功")
+                print("Connection successful")
                 self.client_dash = DobotApiDashboard(
                     self.entry_ip.get(), int(self.entry_dash.get()), self.text_log)
                 self.client_move = DobotApiMove(
@@ -388,10 +388,10 @@ class RobotUI(object):
 
     def confirm_do(self):
         if self.combo_status.get() == "On":
-            print("高电平")
+            print("High level")
             self.client_dash.DO(int(self.entry_index.get()), 1)
         else:
-            print("低电平")
+            print("Low level")
             self.client_dash.DO(int(self.entry_index.get()), 0)
 
     def set_feed(self, text_list, x1, x2, x3, x4):
