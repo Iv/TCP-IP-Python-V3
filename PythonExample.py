@@ -1,5 +1,4 @@
-from dobot_api import DobotApiDashboard, DobotApi, DobotApiMove, MyType
-from time import sleep
+from dobot_api import DobotApiDashboard, DobotApi, DobotApiMove
 
 PARAMS=0
 def connect_robot():

@@ -179,13 +179,13 @@ class DobotApi:
             data = self.socket_dobot.recv(1024)
         except Exception as e:
             print(e)
-        finally:
-            if len(data) == 0:
-                data_str = data
-            else:
-                data_str = str(data, encoding="utf-8")
-            self.log(f'Receive from {self.ip}:{self.port}: {data_str}')
-            return data_str
+
+        if len(data) == 0:
+            data_str = data
+        else:
+            data_str = str(data, encoding="utf-8")
+        self.log(f'Receive from {self.ip}:{self.port}: {data_str}')
+        return data_str
 
     def sendRecvMsg(self, string):
         """
