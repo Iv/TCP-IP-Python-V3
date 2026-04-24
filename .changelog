@@ -1,4 +1,4 @@
-1/15   1.增加changelog  
-       2.删除多余指令MovJExt,SyncAll  
-       3.新增ServoJS功能指令, 增加ServoJ可选参数适配   
-       4.增加每条指令下发与接收中间数据同步
+1/15   1. Added changelog
+       2. Deleted redundant instructions MovJExt, SyncAll
+       3. Added ServoJS function instruction, added ServoJ optional parameter adaptation
+       4. Added data synchronization between sending and receiving each instruction
